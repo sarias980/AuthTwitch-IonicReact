@@ -1,0 +1,7 @@
+{
+  "name": "AuthTwitchIonicReact",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
