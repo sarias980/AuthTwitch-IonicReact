@@ -1,20 +1,18 @@
 import axios from "axios";
+import Config from "../config";
 
-const client_id = "sqzenuv3q0xavdm33b1b73b10vxujo";
-const redirect_uri = "http://localhost:8100/dashboard";
-const acceptLink = "application/vnd.twitchtv.v5+json";
+const config = Config.twitch as any;
 
 const TwitchAPIData = axios.create({
-    baseURL: "https://api.twitch.tv/kraken/",
+    baseURL: config.baseURL,
     headers: {
-        "Client-ID": client_id,
-        Accept: acceptLink
+        "Client-ID": config.client_id,
+        Accept: config.acceptLink
     }
 });
 
 export const GetUserLoginURL = () => {
-    const response = "https://api.twitch.tv/kraken/oauth2/authorize?client_id="+ client_id +"&redirect_uri=" + redirect_uri + "&response_type=code&scope=user:edit+user:read:email";
-    return response;
+    return config.baseURL + "oauth2/authorize?client_id=" + config.client_id + "&redirect_uri=" + config.redirect_uri + "&response_type=code&scope=user:edit+user:read:email";
 };
 
 export const GetStreams = async (type = "", limit = 40) => {

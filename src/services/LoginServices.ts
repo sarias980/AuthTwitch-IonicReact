@@ -1,4 +1,5 @@
 import axios from "axios";
+import Config from "../config";
 
 const loginData = {
     "email": "",
@@ -12,6 +13,6 @@ const APIData = axios.create({
 });
 
 export const GetLogin = async (email = "",password = "") => {
-    const response = await APIData.get(``);
+    const response = await APIData.get(Config.apiUrl);
     return response.data;
 };

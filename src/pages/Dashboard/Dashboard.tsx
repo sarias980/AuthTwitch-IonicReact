@@ -1,8 +1,8 @@
 import {
     IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLoading, IonList, IonItem
 } from '@ionic/react';
-import './Home.css';
-import {GetStreams} from "../services/Twitch";
+import '../Home.css';
+import {GetStreams} from "../../services/Twitch";
 import React from "react";
 
 const Dashboard: React.FC = () => {
