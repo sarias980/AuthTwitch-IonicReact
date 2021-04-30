@@ -15,7 +15,7 @@ export const GetUserLoginURL = () => {
     return config.baseURL + "oauth2/authorize?client_id=" + config.client_id + "&redirect_uri=" + config.redirect_uri + "&response_type=code&scope=user:edit+user:read:email";
 };
 
-export const GetStreams = async (type = "", limit = 40) => {
+export const GetStreams = async (type = "", limit = 10) => {
     const response = await TwitchAPIData.get(`streams/${type}?limit=${limit}`);
     return response.data;
 };

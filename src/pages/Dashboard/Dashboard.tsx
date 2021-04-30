@@ -3,14 +3,13 @@ import {
 } from '@ionic/react';
 import '../Home.css';
 import {GetStreams} from "../../services/Twitch";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import GameListItem from '../../components/Stream/GameListItem/GameListItem';
 
 const Dashboard: React.FC = () => {
 
-    const state = {
-        streams: [],
-        error: false
-    };
+    const [streams, setStreams] = useState([]);
+    const [error, setError] = useState(false);
 
     const GetStreamsData = async () => {
         try {
@@ -18,8 +17,8 @@ const Dashboard: React.FC = () => {
             let topStreams = await streams.streams;
             return topStreams;
         } catch (error) {
-            state.error = true;
-            console.log(error);
+            setError(true);
+            //console.log(error);
             return [];
         }
     };
@@ -27,42 +26,45 @@ const Dashboard: React.FC = () => {
     const renderView = () => {
         return GetStreamsData().then(r => {
                 console.log(r);
-                state.streams = r;
+                setStreams(r);
             }
-        ).catch( e => {
-            state.streams = [];
+        ).catch(e => {
+            console.log(e);
         });
     }
 
-    renderView();
+    useEffect(() => {
+        renderView();
+    }, []);
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Dashboard</IonTitle>
+                    <IonTitle>Streams</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Dashboard</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonLoading
-                    cssClass='my-custom-class'
-                    isOpen={state.streams.length <= 0}
-                    message={'Please wait...'}
-                    duration={1000}
-                />
                 {
-                    state.streams.length > 0 && <>
-                        <IonList>
-                            {state.streams.map((item: any) => (
-                                <IonItem key={item._id}>{item.game}</IonItem>
-                            ))}
-                        </IonList>
-                    </>
+                    streams.length > 0 ?
+                        <>
+                            <IonList>
+                                {
+                                    streams.map((item: any) => (
+                                        <IonItem key={item._id}>
+                                            <GameListItem data={item}/>
+                                        </IonItem>
+                                    ))
+                                }
+                            </IonList>
+                        </>
+                        :
+                        <IonLoading
+                            cssClass='my-custom-class'
+                            isOpen={streams.length <= 0}
+                            message={'Please wait...'}
+                            duration={1000}
+                        />
                 }
             </IonContent>
         </IonPage>
